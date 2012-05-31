@@ -1,4 +1,3 @@
 yoofood
 =======
-
-commande de menu par smartphone et tablette
+le fichier index.php doit vous afficher le message hello world ! dans un navigateur
