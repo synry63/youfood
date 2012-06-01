@@ -41,15 +41,18 @@ print'<script src="js/initXHR.js"></script>';
 /* requete ajax + traitement des données */
 print'<script>
     tab = new Array();
-    function test(id){
+    function test(object){
+        var value = object.attributes[1].value;
+        var id=object.attributes[2].value;
         var test = tab[id];
         if(!test){
-            tab[id] = new Array("repas",1);
+            tab[id] = new Array(value,1);
             $(".recap").after("<p>"+tab[id][0]+"<span id=\""+id+"\">"+tab[id][1]+"</span></p>");
            // $("#quantite").append(tab[id][1]);
         }
         else{
             tab[id][1] = tab[id][1]+1;
+            test = $("#"+id).text();
             $("#"+id).text(tab[id][1]);
             
         }
@@ -67,7 +70,9 @@ print'<script>
                                 var id = doc[i].id;
                                 var name = doc[i].name;
                                 $(".choix span").append(
-                                "<input onClick=\"test("+id+")\" type=\"button\" value=\""+doc[i].name+"\">");
+                              //  "<input onClick=\"test("+id+")\" type=\"button\" value=\""+doc[i].name+"\">");
+                                "<input onClick=\"test(this)\" type=\"button\" class=\""+id+"\" value=\""+name+"\">");
+                           
                             }
                             //var name = doc[0].name;
                             //id="789";
