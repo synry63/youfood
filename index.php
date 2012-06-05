@@ -1,114 +1,41 @@
-<?php
-/* recuration data coté serveur */
-if(isset($_GET['type'])){ // 0=boisson 1=entree 2=plat
-    $type = $_GET['type'];
-    $col=array();
-    if($type==2){
-        $plat->id=45;
-        $plat->name = "steack frites";
-        $plat->description = "le super steak frites !!";
-        $plat->prix = 10;
-        $col[0] = $plat;
-        $plat = null;
-        $plat->id=85;
-        $plat->name = "poisson panne";
-        $plat->description = "le poisson panne !!";
-        $plat->prix = 15;
-        $col[1] = $plat;
-    }
-    if($type==0){
-        $plat->id=20;
-        $plat->name = "coca cola";
-        $plat->description = "coca cola !";
-        $plat->prix = 5;
-        $col[0] = $plat;
-    }
-    if($type==1){
-        $plat->id=5;
-        $plat->name = "salade composé";
-        $plat->description = "salade composé !!";
-        $plat->prix = 10;
-        $col[0] = $plat;
-    }
-    header('Content-type: application/json');
-    print json_encode($col);
-    exit;
-}
+<?php include_once ('data.php'); ?>
+<?php include_once ('header.php'); ?>
 
-print'<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>';
-print'<script src="js/initXHR.js"></script>';
+<div class="container">
 
-/* requete ajax + traitement des données */
-print'<script>
-    tab = new Array();
-    function test(object){
-        var value = object.attributes[1].value;
-        var id=object.attributes[2].value;
-        var test = tab[id];
-        if(!test){
-            tab[id] = new Array(value,1);
-            $(".recap").after("<p>"+tab[id][0]+"<span id=\""+id+"\">"+tab[id][1]+"</span></p>");
-           // $("#quantite").append(tab[id][1]);
-        }
-        else{
-            tab[id][1] = tab[id][1]+1;
-            test = $("#"+id).text();
-            $("#"+id).text(tab[id][1]);
-            
-        }
-    }
-    
-    function requestfood(type) {
-            var xhr = getXMLHttpRequest();
+    <div class="row" style="margin-top:15px;margin-bottom:15px;">
+        <div class="span3" >
+            <h2 style="text-align: center;">Menus</h2>
+        </div>
+        <div class="span6">
+            <h2 style="text-align: center;">Plats</h2>
+        </div>
+        <div class="span3">
+            <h2 style="text-align: center;">Commande</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span3" style="background-color: rgb(235,235,235);height:300px;padding-top:15px;padding-bottom:15px;border-radius: 10px;box-shadow: 3px 5px 5px grey;">
+            <div class="food">
+                <ul style="list-style-type:none;">
+                    <li style="margin:5px;"><a href="javascript:void(0);" onClick="requestfood(0);">Boisson</a></li>
+                    <li style="margin:5px;"><a href="javascript:void(0);" onClick="requestfood(1);">Entree</a></li>
+                    <li style="margin:5px;"><a href="javascript:void(0);" onClick="requestfood(2);">Plat Principal</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="span6" style="background-color: rgb(235,235,235);height:300px;padding-top:15px;padding-bottom:15px;border-radius: 10px;box-shadow: 3px 5px 5px grey;">
+            <div class="choix">
+                <span style="margin:25px;"></span>
+            </div>
+        </div>
+        <div class="span3" style="background-color: rgb(235,235,235);height:300px;padding-top:15px;padding-bottom:15px;border-radius: 10px;box-shadow: 3px 5px 5px grey;">
+            <div class="recap" style="margin-top:5px;margin-bottom:5px;" >
+                <p id="total"></p>
+            </div>
+        </div>
+    </div>
+</div>
 
-            xhr.onreadystatechange = function() {
-                    if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)) {
-                            var doc = eval("(" + xhr.responseText + ")");
-                            $(".choix span").html("");
-                            for(var i= 0; i<doc.length; i++){
-                                object = doc[i];
-                                var id = doc[i].id;
-                                var name = doc[i].name;
-                                $(".choix span").append(
-                              //  "<input onClick=\"test("+id+")\" type=\"button\" value=\""+doc[i].name+"\">");
-                                "<input onClick=\"test(this)\" type=\"button\" class=\""+id+"\" value=\""+name+"\">");
-                           
-                            }
-                            //var name = doc[0].name;
-                            //id="789";
-                            
-
-                    }
-            };
-
-            xhr.open("GET", "index.php?type="+type, true);
-            xhr.send(null);
-    }
-</script>';
-
-/*print'<script>';
-    print'$(document).ready(function() {';
-        print'$(":button").click(function(){
-            alert("bouton clicke"); 
-            });';
-   print'});';     
-print'</script>';*/
-
-/* View */
-print'<div class="food">';
-    print'<ul>';
-        print'<li><a href="javascript:void(0);" onClick="requestfood(0);">Boisson</a></li>';
-        print'<li><a href="javascript:void(0);" onClick="requestfood(1);">Entree</a></li>';
-        print'<li><a href="javascript:void(0);" onClick="requestfood(2);">Plat Principal</a></li>';
-   print'</ul>';
-print'</div>';   
-
-print'<div class="choix">';
-    print '<span></span>';
-print'</div>';
-
-print'<div class="recap">';
-print'</div>';
-
-
-?>
+<?php include('script.php'); ?>
+<?php include('footer.php'); ?>
